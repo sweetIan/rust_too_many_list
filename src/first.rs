@@ -1,5 +1,4 @@
 use std::mem;
-use std::io::Empty;
 
 pub struct List {
     head: Link,
@@ -54,8 +53,10 @@ impl List {
 
 impl Drop for List {
     fn drop(&mut self) {
-        let mut cur = self;
-        while let Link::More(cur) = cur.pop_node() {}
+        let mut cur = self.pop_node();
+        while let Link::More(next) = cur {
+            cur = next.next;
+        }
     }
 }
 
